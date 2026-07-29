@@ -19,15 +19,18 @@ def send_wechat(title, content):
         print(f"【錯誤】推送失敗: {e}")
 
 if __name__ == "__main__":
-    # 檢查 API Key 是否有正確傳入
     if not DEEPSEEK_KEY:
         print("【嚴重錯誤】沒有偵測到 DEEPSEEK_API_KEY！請檢查 GitHub Secrets 設定。")
         exit(1)
-    else:
-        print("【成功】已成功讀取 DeepSeek API Key，開始執行 AI 分析...")
+    
+    print("【成功】已成功讀取 DeepSeek API Key，開始指定 DeepSeek 模型...")
 
-    # 初始化專案配置
+    # 複製預設配置並強制修改模型名稱為 deepseek-chat
     config = DEFAULT_CONFIG.copy()
+    config["quick_think_llm"] = "deepseek-chat"
+    config["deep_think_llm"] = "deepseek-chat"
+
+    # 初始化交易代理人
     ta = TradingAgentsGraph(debug=True, config=config)
 
     # 執行 AI 分析
