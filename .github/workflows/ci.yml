@@ -24,10 +24,14 @@ jobs:
 
       - name: 4. 執行 Python 並推送微信
         env:
+          # 微信推送 Key
           SERVERCHAN_SENDKEY: ${{ secrets.SERVERCHAN_SENDKEY }}
-          OPENAI_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-          OPENAI_BASE_URL: "https://api.deepseek.com"
-          # 補上環境變數確保套件讀取到 DeepSeek 模型
-          TRADINGAGENTS_QUICK_THINK_LLM: "deepseek-chat"
+          
+          # 直接使用 DeepSeek 原生 Key
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          
+          # 直接指定原生 Provider 與模型 (不用再寫 OPENAI_BASE_URL)
+          TRADINGAGENTS_LLM_PROVIDER: "deepseek"
           TRADINGAGENTS_DEEP_THINK_LLM: "deepseek-chat"
+          TRADINGAGENTS_QUICK_THINK_LLM: "deepseek-chat"
         run: python run_app.py
