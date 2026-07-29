@@ -1,7 +1,7 @@
 name: My Trading Bot
 
 on:
-  workflow_dispatch: # 支援在 GitHub 網頁按鈕手動觸發
+  workflow_dispatch:
 
 jobs:
   run-trading-bot:
@@ -22,12 +22,12 @@ jobs:
           pip install -e .
           pip install requests
 
-      # ★ 最關鍵的最後一步：把金鑰與 DeepSeek 伺服器網址注入進去 ★
       - name: 4. 執行 Python 並推送微信
         env:
           SERVERCHAN_SENDKEY: ${{ secrets.SERVERCHAN_SENDKEY }}
-          # 1. 讀取你在 Secrets 設的 DeepSeek 金鑰
           OPENAI_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-          # 2. 強制把 API 伺服器指向 DeepSeek（非常重要！不然會跑去 OpenAI 報錯）
           OPENAI_BASE_URL: "https://api.deepseek.com"
+          # 補上環境變數確保套件讀取到 DeepSeek 模型
+          TRADINGAGENTS_QUICK_THINK_LLM: "deepseek-chat"
+          TRADINGAGENTS_DEEP_THINK_LLM: "deepseek-chat"
         run: python run_app.py
